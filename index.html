@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pakawara Biojoyas</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<div class="notify" id="notify" role="status" aria-live="polite">✓ Producto agregado al carrito</div>
+
+<nav>
+  <button class="nav-logo" type="button" onclick="goPage('home')" aria-label="Ir al inicio">
+    <img src="assets/img/LOGO.jpg" alt="Logo Pakawara">
+    <span class="brand-pakawara">Pakawara</span> <span class="brand-biojoyas">Biojoyas</span>
+  </button>
+
+  <div class="nav-links">
+    <button class="nav-link active" onclick="goPage('home')">Inicio</button>
+    <button class="nav-link" onclick="goPage('catalogo')">Catálogo</button>
+    <button class="nav-link" onclick="goPage('historia')">Nosotros</button>
+    <button class="nav-link" onclick="goPage('admin')">Admin</button>
+  </div>
+
+  <div class="nav-right">
+    <button class="cart-btn" type="button" onclick="goPage('carrito')" aria-label="Abrir carrito">
+      🛒 Carrito <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="page active" id="page-home">
+  <section class="hero">
+    <h1>Joyería de la <span>Amazonía</span> boliviana</h1>
+    <p>Piezas únicas elaboradas con semillas amazónicas, maderas caídas y escamas de paiche. Cada joya cuenta una historia del bosque.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="goPage('catalogo')">Ver catálogo</button>
+      <button class="btn-secondary" onclick="goPage('historia')">Nuestra historia</button>
+    </div>
+  </section>
+
+  <section class="stats-banner">
+    <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Líneas de producto</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Materiales naturales</div></div>
+    <div class="stat-item"><div class="stat-num">Cobija</div><div class="stat-label">Pando, Bolivia</div></div>
+    <div class="stat-item"><div class="stat-num">♻️</div><div class="stat-label">Economía circular</div></div>
+  </section>
+
+  <section class="section">
+    <div class="ia-chip">✨ IA Activa</div>
+    <h2 class="section-title">Productos destacados</h2>
+    <p class="section-sub">Recomendados para ti según temporada y popularidad</p>
+
+    <div class="recommend-box">
+      <div class="recommend-title">🤖 Recomendaciones personalizadas de IA</div>
+      <div class="recommend-grid" id="home-recs"></div>
+    </div>
+
+    <div class="product-grid" id="home-products"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">¿Por qué Pakawara?</h2>
+    <p class="section-sub">Cada pieza es un acto de amor por la Amazonía</p>
+
+    <div class="admin-grid">
+      <div class="admin-stat">
+        <div style="font-size:34px;margin-bottom:.5rem">🌱</div>
+        <div style="font-weight:900;margin-bottom:4px">Extractivismo sustentable</div>
+        <div style="font-size:13px;color:var(--texto-sec)">Sin talar árboles. Recolección responsable del bosque amazónico.</div>
+      </div>
+
+      <div class="admin-stat">
+        <div style="font-size:34px;margin-bottom:.5rem">👩‍🎨</div>
+        <div style="font-weight:900;margin-bottom:4px">Manos artesanas</div>
+        <div style="font-size:13px;color:var(--texto-sec)">Mujeres indígenas con saberes ancestrales dan vida a cada pieza.</div>
+      </div>
+
+      <div class="admin-stat">
+        <div style="font-size:34px;margin-bottom:.5rem">🏆</div>
+        <div style="font-weight:900;margin-bottom:4px">Calidad artesanal</div>
+        <div style="font-size:13px;color:var(--texto-sec)">Control de calidad en 6 etapas y empaque en bolsa de tela tucuyo.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-catalogo">
+  <div class="page-header">
+    <h2>Catálogo Pakawara</h2>
+    <p>Biojoyería artesanal amazónica sostenible</p>
+  </div>
+
+  <section class="section">
+    <div class="search-bar">
+      <input class="search-input" id="search-q" type="search" aria-label="Buscar productos" placeholder="Buscar por nombre, material o tipo..." oninput="filterProducts()">
+      <button class="search-btn" onclick="filterProducts()">Buscar</button>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" onclick="setFilter('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="setFilter('aretes',this)">Aretes</button>
+      <button class="filter-btn" onclick="setFilter('manillas',this)">Manillas</button>
+      <button class="filter-btn" onclick="setFilter('collares',this)">Collares</button>
+    </div>
+
+    <div class="advanced-filters">
+      <select class="filter-select" id="filter-material" onchange="filterProducts()">
+        <option value="">Todos los materiales</option>
+        <option value="semillas">Semillas amazónicas</option>
+        <option value="paiche">Escamas de paiche</option>
+        <option value="plumas">Plumas</option>
+        <option value="marfil vegetal">Marfil vegetal</option>
+      </select>
+      <select class="filter-select" id="filter-color" onchange="filterProducts()">
+        <option value="">Todos los colores</option>
+        <option value="amarillo">Amarillo</option><option value="azul">Azul</option>
+        <option value="lila">Lila</option><option value="marfil">Marfil</option>
+        <option value="natural">Natural</option>
+      </select>
+      <select class="filter-select" id="filter-weight" onchange="filterProducts()">
+        <option value="">Cualquier peso</option>
+        <option value="ligero">Ligero (hasta 20 g)</option>
+        <option value="medio">Medio (21–50 g)</option>
+        <option value="pesado">Más de 50 g</option>
+      </select>
+      <select class="filter-select" id="filter-price" onchange="filterProducts()">
+        <option value="">Cualquier precio</option>
+        <option value="0-70">Hasta Bs 70</option>
+        <option value="71-120">Bs 71–120</option>
+        <option value="121-999">Más de Bs 120</option>
+      </select>
+      <button class="clear-filters" onclick="clearAdvancedFilters()">Limpiar filtros</button>
+    </div>
+
+    <div class="recommend-box">
+      <div class="recommend-title">🤖 También te puede gustar</div>
+      <div class="recommend-grid" id="cat-recs"></div>
+    </div>
+
+    <div class="product-grid" id="cat-products"></div>
+  </section>
+</div>
+
+<div class="page" id="page-historia">
+  <div class="page-header">
+    <h2>Nuestra Historia</h2>
+    <p>Pakawara — en honor al pueblo indígena Pacahuara</p>
+  </div>
+
+  <section class="section">
+    <div style="background:var(--blanco);border-radius:18px;border:1px solid var(--borde);padding:1.8rem;margin-bottom:2rem">
+      <p style="font-size:16px;line-height:1.8;color:var(--texto-sec)">
+        Pakawara Biojoyas nació en <strong>Cobija, Pando</strong> con la misión de transformar los tesoros del bosque amazónico en piezas de joyería únicas. El nombre rinde homenaje al <strong>pueblo indígena Pacahuara</strong>, reflejando el compromiso con la preservación de la identidad cultural y los saberes ancestrales de la Amazonía boliviana.
+      </p>
+    </div>
+
+    <h2 class="section-title">Proceso productivo</h2>
+    <p class="section-sub">Seis etapas artesanales para cada pieza</p>
+
+    <div class="historia-steps">
+      <div class="historia-step">
+        <div class="historia-step-icon">🌲</div>
+        <div class="historia-step-num">Etapa 1</div>
+        <div class="historia-step-name">Recolección</div>
+        <div class="historia-step-desc">Selección de semillas, maderas caídas y escamas del bosque amazónico.</div>
+      </div>
+
+      <div class="historia-step">
+        <div class="historia-step-icon">🧹</div>
+        <div class="historia-step-num">Etapa 2</div>
+        <div class="historia-step-name">Limpieza</div>
+        <div class="historia-step-desc">Tratamiento con cera natural para preservar los materiales.</div>
+      </div>
+
+      <div class="historia-step">
+        <div class="historia-step-icon">☀️</div>
+        <div class="historia-step-num">Etapa 3</div>
+        <div class="historia-step-name">Secado</div>
+        <div class="historia-step-desc">Secado y conservación natural para mayor durabilidad.</div>
+      </div>
+
+      <div class="historia-step">
+        <div class="historia-step-icon">✨</div>
+        <div class="historia-step-num">Etapa 4</div>
+        <div class="historia-step-name">Pulido</div>
+        <div class="historia-step-desc">Pulido y lijado artesanal para revelar la belleza natural.</div>
+      </div>
+
+      <div class="historia-step">
+        <div class="historia-step-icon">🤲</div>
+        <div class="historia-step-num">Etapa 5</div>
+        <div class="historia-step-name">Ensamblado</div>
+        <div class="historia-step-desc">Técnicas ancestrales transmitidas de generación en generación.</div>
+      </div>
+
+      <div class="historia-step">
+        <div class="historia-step-icon">📦</div>
+        <div class="historia-step-num">Etapa 6</div>
+        <div class="historia-step-name">Empaque</div>
+        <div class="historia-step-desc">Control de calidad y empaque en bolsa de tela tucuyo.</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Nuestro equipo</h2>
+    <p class="section-sub">Roles principales del emprendimiento</p>
+
+    <div class="admin-grid">
+      <div class="admin-stat">
+        <div style="font-size:34px">👩‍💼</div>
+        <div style="font-weight:900">Directora</div>
+        <div style="font-size:13px;color:var(--texto-sec)">Planifica, organiza y representa al emprendimiento.</div>
+      </div>
+
+      <div class="admin-stat">
+        <div style="font-size:34px">🎨</div>
+        <div style="font-weight:900">Producción y Diseño</div>
+        <div style="font-size:13px;color:var(--texto-sec)">Diseña modelos y supervisa la calidad artesanal.</div>
+      </div>
+
+      <div class="admin-stat">
+        <div style="font-size:34px">📱</div>
+        <div style="font-weight:900">Marketing y Ventas</div>
+        <div style="font-size:13px;color:var(--texto-sec)">Gestiona redes sociales, catálogo y clientes.</div>
+      </div>
+
+      <div class="admin-stat">
+        <div style="font-size:34px">💰</div>
+        <div style="font-weight:900">Administración</div>
+        <div style="font-size:13px;color:var(--texto-sec)">Controla finanzas, inventario y precios.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-carrito">
+  <div class="page-header">
+    <h2>Carrito de compras</h2>
+    <p>Revisa tu selección amazónica</p>
+  </div>
+  <section class="section" id="cart-section"></section>
+</div>
+
+<div class="page" id="page-checkout">
+  <div class="page-header">
+    <h2>Finalizar compra</h2>
+    <p>Datos de envío y pago</p>
+  </div>
+
+  <section class="section">
+    <div id="checkout-form-section">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem" class="checkout-grid">
+        <div>
+          <h3 style="margin-bottom:1rem;color:var(--verde)">Datos personales</h3>
+
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="f-nombre" placeholder="Tu nombre"></div>
+            <div class="form-group"><label class="form-label" for="f-apellido">Apellido</label><input class="form-input" id="f-apellido" autocomplete="family-name" required placeholder="Apellido"></div>
+          </div>
+
+          <div class="form-group"><label class="form-label" for="f-email">Correo electrónico</label><input class="form-input" id="f-email" type="email" autocomplete="email" required placeholder="correo@ejemplo.com"></div>
+          <div class="form-group"><label class="form-label" for="f-tel">Teléfono</label>
+            <div class="phone-row"><select class="country-code" id="f-country" aria-label="Código de país"><option value="+591">🇧🇴 Bolivia +591</option><option value="+55">🇧🇷 Brasil +55</option><option value="+51">🇵🇪 Perú +51</option></select><input class="form-input" id="f-tel" type="tel" inputmode="tel" autocomplete="tel" required placeholder="Número de teléfono"></div></div>
+          <div class="form-group"><label class="form-label" for="f-dir">Dirección de entrega</label><input class="form-input" id="f-dir" autocomplete="street-address" required placeholder="Calle, número, ciudad"></div>
+          <div class="form-error" id="checkout-error" role="alert" aria-live="assertive"></div>
+
+          <h3 style="margin:.75rem 0;color:var(--verde)">Método de pago</h3>
+          <div class="payment-opts">
+            <div class="pay-opt selected" onclick="selectPay(this,'PIX')">🇧🇷 PIX</div>
+            <div class="pay-opt" onclick="selectPay(this,'Cartão')">💳 Cartão</div>
+            <div class="pay-opt" onclick="selectPay(this,'Mastercard')">🔴 Mastercard</div>
+            <div class="pay-opt" onclick="selectPay(this,'Tarjeta')">💳 Tarjeta</div>
+          </div>
+          <div class="promo-box"><label class="form-label">Código promocional</label><div class="promo-row"><input class="form-input" id="promo-code" placeholder="Ej: PAKAWARA10"><button class="promo-btn" onclick="applyPromo()">Aplicar</button></div><div id="promo-message" class="promo-message">Si no tienes código, el precio no cambia.</div></div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:1rem;color:var(--verde)">Resumen del pedido</h3>
+          <div id="checkout-summary"></div>
+        </div>
+      </div>
+
+      <button class="checkout-btn" onclick="placeOrder()" style="max-width:400px">✓ Confirmar pedido</button>
+    </div>
+
+    <div id="checkout-success" style="display:none" class="success-box">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">¡Pedido confirmado!</div>
+      <p style="color:var(--texto-sec);font-size:14px;margin-bottom:1.5rem">Tu joya amazónica está en camino. Recibirás confirmación por WhatsApp.</p>
+      <div style="background:var(--verde-light);border-radius:12px;padding:1rem;font-size:13px;text-align:left;margin-bottom:1.5rem" id="order-number"></div>
+      <button class="btn-primary" onclick="goPage('catalogo')">Seguir comprando</button>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-admin">
+  <div class="page-header">
+    <h2>Panel de Administración</h2>
+    <p>Gestión de Pakawara Biojoyas</p>
+  </div>
+
+  <section class="section">
+    <div class="alert">
+      <div class="alert-icon">🔔</div>
+      <div><strong>Alerta IA:</strong> Se acerca el Aniversario de Pando. Pico de demanda proyectado: +40%. Considera incrementar stock de collares.</div>
+    </div>
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="adminTab('dashboard',this)">Dashboard</button>
+      <button class="admin-tab" onclick="adminTab('productos',this)">Productos</button>
+      <button class="admin-tab" onclick="adminTab('pedidos',this)">Pedidos</button>
+      <button class="admin-tab" onclick="adminTab('inventario',this)">Inventario</button>
+    </div>
+
+    <div id="admin-dashboard">
+      <div class="admin-grid">
+        <div class="admin-stat"><div class="admin-stat-num">Bs 4,320</div><div class="admin-stat-label">Ventas este mes</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">28</div><div class="admin-stat-label">Pedidos totales</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">12</div><div class="admin-stat-label">Productos activos</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">94%</div><div class="admin-stat-label">Satisfacción</div></div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">Pedidos recientes</div>
+        <table>
+          <thead><tr><th>N° Pedido</th><th>Cliente</th><th>Producto</th><th>Total</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>#0028</td><td>María L.</td><td>Collar Paiche</td><td>Bs 180</td><td><span class="status-badge status-proceso">En proceso</span></td></tr>
+            <tr><td>#0027</td><td>Rosa T.</td><td>Aretes Asaí x2</td><td>Bs 100</td><td><span class="status-badge status-pendiente">Pendiente</span></td></tr>
+            <tr><td>#0026</td><td>Carmen F.</td><td>Manilla Verde</td><td>Bs 70</td><td><span class="status-badge status-entregado">Entregado</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header"><span>Predicción de demanda — IA</span><span class="ia-chip">✨ IA</span></div>
+        <table>
+          <thead><tr><th>Evento</th><th>Mes</th><th>Incremento</th><th>Acción recomendada</th></tr></thead>
+          <tbody>
+            <tr><td>Día de la Madre</td><td>Mayo</td><td>+35%</td><td>Producir 20 unidades extra</td></tr>
+            <tr><td>Aniversario Pando</td><td>Septiembre</td><td>+40%</td><td>Stock de collares ×1.5</td></tr>
+            <tr><td>Navidad</td><td>Diciembre</td><td>+55%</td><td>Todas las líneas ×2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="admin-productos" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <h3 style="color:var(--verde)">Gestión de productos</h3>
+        <button class="add-product-btn" onclick="showAddProduct()">+ Nuevo producto</button>
+      </div>
+
+      <div id="add-product-form" style="display:none;background:var(--blanco);border-radius:18px;border:1px solid var(--borde);padding:1.25rem;margin-bottom:1rem">
+        <h3 style="margin-bottom:1rem;color:var(--verde)">Nuevo producto</h3>
+
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="np-nombre" placeholder="Ej: Aretes de Asaí"></div>
+          <div class="form-group">
+            <label class="form-label">Categoría</label>
+            <select class="form-input" id="np-cat">
+              <option value="aretes">Aretes</option>
+              <option value="manillas">Manillas</option>
+              <option value="collares">Collares</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Precio (Bs)</label><input class="form-input" id="np-precio" type="number" min="1" step="1" placeholder="0"></div>
+          <div class="form-group"><label class="form-label">Stock</label><input class="form-input" id="np-stock" type="number" min="0" step="1" value="1"></div>
+        </div>
+
+        <div class="form-group"><label class="form-label">Materiales</label><input class="form-input" id="np-mat" placeholder="Semillas amazónicas, escamas de paiche..."></div>
+
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:1rem">
+          <button class="add-product-btn" style="background:var(--dorado)" onclick="generateDesc()">✨ Generar descripción con IA</button>
+          <span style="font-size:12px;color:var(--texto-sec)" id="gen-loading"></span>
+        </div>
+
+        <div class="form-group"><label class="form-label">Descripción</label><textarea class="form-input" id="np-desc" rows="3" placeholder="Descripción del producto..."></textarea></div>
+
+        <div style="display:flex;gap:.75rem">
+          <button class="add-product-btn" onclick="saveProduct()">Guardar producto</button>
+          <button class="modal-close-btn" onclick="document.getElementById('add-product-form').style.display='none'">Cancelar</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="admin-prod-table">
+          <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
+          <tbody id="admin-prod-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="admin-pedidos" style="display:none">
+      <div class="table-wrap">
+        <div class="table-header">Todos los pedidos</div>
+        <table>
+          <thead><tr><th>N°</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Pago</th><th>Estado</th></tr></thead>
+          <tbody id="admin-orders-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="admin-inventario" style="display:none">
+      <div class="table-wrap">
+        <div class="table-header">Control de materias primas</div>
+        <table>
+          <thead><tr><th>Material</th><th>Unidad</th><th>Stock actual</th><th>Stock mínimo</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>Semillas de Asaí</td><td>unidades</td><td>340</td><td>100</td><td><span class="status-badge status-entregado">OK</span></td></tr>
+            <tr><td>Escamas de Paiche</td><td>piezas</td><td>85</td><td>80</td><td><span class="status-badge status-pendiente">Bajo</span></td></tr>
+            <tr><td>Hilo elástico</td><td>metros</td><td>12</td><td>20</td><td><span class="status-badge" style="background:#F8D7DA;color:#721C24">Crítico</span></td></tr>
+            <tr><td>Bolsas tucuyo</td><td>unidades</td><td>30</td><td>30</td><td><span class="status-badge status-pendiente">Bajo</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" type="button" onclick="closeModal()" aria-label="Cerrar detalle">✕</button>
+    <div class="modal-img" id="modal-img">🌿</div><button class="zoom-control" id="zoom-control" onclick="toggleZoom(event)">🔍 Acercar</button>
+    <div class="modal-body">
+      <div class="ia-chip" id="modal-ia-chip">✨ Recomendado por IA</div>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-price" id="modal-price"></div>
+      <div class="modal-section">Descripción</div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-section">Materiales amazónicos</div>
+      <div class="modal-tags" id="modal-tags"></div>
+      <div class="modal-section">Historia del material</div>
+      <div class="modal-desc" id="modal-historia"></div>
+      <div class="modal-actions">
+        <button class="modal-close-btn" onclick="closeModal()">Cerrar</button>
+        <button class="modal-add" id="modal-add-btn">🛒 Agregar al carrito</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="chatbot-fab ai-fab" type="button" onclick="toggleChat()" id="chat-fab" aria-label="Abrir asistente Naira" aria-expanded="false"><span>✨</span><small>IA</small></button>
+
+<div class="chatbot-window" id="chat-window">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">🌿</div>
+      <div>
+        <div class="chat-title">Naira · Asistente IA</div>
+        <div class="chat-sub"><span class="online-dot"></span> Analiza gustos, ocasión y presupuesto</div>
+      </div>
+    </div>
+    <button class="chat-close" type="button" onclick="toggleChat()" aria-label="Cerrar asistente">✕</button>
+  </div>
+
+  <div class="chat-ai-panel">
+    <div class="chat-ai-label">✨ Modo recomendador inteligente</div>
+    <div class="chat-ai-text">Cuéntame si buscas regalo, algo elegante, económico o para una ocasión especial.</div>
+  </div>
+
+  <div class="chat-messages" id="chat-msgs"></div>
+
+  <div class="chat-quick" id="chat-quick">
+    <button class="chat-quick-btn" onclick="quickMsg('Quiero una recomendación para regalo')">🎁 Recomiéndame</button>
+    <button class="chat-quick-btn" onclick="quickMsg('Tengo presupuesto de 80 Bs')">💰 Presupuesto 80 Bs</button>
+    <button class="chat-quick-btn" onclick="quickMsg('Busco algo elegante')">✨ Elegante</button>
+    <button class="chat-quick-btn" onclick="quickMsg('¿Qué métodos de pago tienen?')">💳 Pagos</button>
+    <button class="chat-quick-btn" onclick="quickMsg('¿Hacen envíos?')">🚚 Envíos</button>
+  </div>
+
+  <div class="chat-input-row">
+    <input class="chat-input" id="chat-input" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" type="button" onclick="sendChat()" aria-label="Enviar mensaje">➤</button>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-brand"><span class="brand-pakawara">Pakawara</span> <span class="brand-biojoyas">Biojoyas</span></div>
+  <div class="footer-grid">
+    <div><strong>Síguenos</strong><div class="social-links"><a href="#" aria-label="Instagram">◎ Instagram</a><a href="#" aria-label="Facebook">◉ Facebook</a><a href="#" aria-label="TikTok">♪ TikTok</a></div></div>
+    <div><strong>Ubicación</strong><p>📍 Cobija, Pando, Bolivia</p><p>🌿 Amazonía boliviana</p></div>
+    <div><strong>Contacto</strong><p>📞 +591 70000000</p><p>✉️ contacto@pakawara.com</p><p>💬 Atención por WhatsApp</p></div>
+  </div>
+  <div class="footer-bottom">La riqueza de la Amazonía en tus manos · Piezas únicas, una sola unidad por diseño</div>
+</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
